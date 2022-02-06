@@ -1,7 +1,8 @@
 <script>
 	export let style;
+	console.log(style)
 
-	let type = '';
+
 
 
 	// style.paints = []
@@ -35,7 +36,7 @@
 	}
 
 </script>
-
+{#if typeof style !== 'undefined'}
 <div class="style">
 	<div class="style__swatch">
 		{#if style.type === "PAINT"}
@@ -44,9 +45,11 @@
 			{/each}
 		{/if}
 	</div>
+	{#if style.type === "PAINT"}
 	<div class="swatch__name">{style.name}</div>
+	{/if}
 </div>
-
+{/if}
 <style>
 	.style {
 		position: relative;

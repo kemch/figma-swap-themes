@@ -4239,18 +4239,90 @@ var ui = (function () {
     function add_css$7() {
     	var style = element("style");
     	style.id = "svelte-76wsfz-style";
-    	style.textContent = ".style.svelte-76wsfz{position:relative;padding:8px 4px 8px 0px}.swatch__fill.svelte-76wsfz{position:absolute;top:8px;left:0;width:16px;height:16px;border-radius:50%;border-style:solid;border-width:1px}.swatch__name.svelte-76wsfz{margin-left:24px}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiU3R5bGVTd2F0Y2guc3ZlbHRlIiwic291cmNlcyI6WyJTdHlsZVN3YXRjaC5zdmVsdGUiXSwic291cmNlc0NvbnRlbnQiOlsiPHNjcmlwdD5cblx0ZXhwb3J0IGxldCBzdHlsZTtcblxuXHRsZXQgdHlwZSA9ICcnO1xuXG5cblx0Ly8gc3R5bGUucGFpbnRzID0gW11cblx0Ly8gc3R5bGUucGFpbnRzLm9wYWNpdHlcblx0Ly8gc3R5bGUucGFpbnRzLmNvbG9yLnJcblx0Ly8gc3R5bGUucGFpbnRzLmNvbG9yLmdcblx0Ly8gc3R5bGUucGFpbnRzLmNvbG9yLmJcblxuXHQvL3tgYmFja2dyb3VuZC1jb2xvcjogcmdiYSgke3BhaW50LmNvbG9yLnJ9LCR7cGFpbnQuY29sb3IuZ30sJHtwYWludC5jb2xvci5ifSwke3BhaW50Lm9wYWNpdHl9KWB9XG5cblx0Ly8gY29uc29sZS5sb2coc3R5bGUudHlwZSlcblxuXHRmdW5jdGlvbiBjYWxjdWxhdGVCb3JkZXIoY29sb3IpIHtcblx0XHQvLyBpZiAoY29sb3IuciArIGNvbG9yLmcgKyBjb2xvci5iKVxuXHRcdGNvbnNvbGUubG9nKGNvbG9yLnIgKyBjb2xvci5nICsgY29sb3IuYiA+IDIuNzUpXG5cdFx0Y29uc29sZS5sb2coJ2hpaScpXG5cdFx0aWYgKGNvbG9yLnIgKyBjb2xvci5nICsgY29sb3IuYiA+IDIuNzUpIHtcblx0XHRcdC8vIHJldHVybiBjb2xvci5yICsgY29sb3IuZyArIGNvbG9yLmJcblx0XHRcdGxldCBpbmNyZW1lbnQgPSAuMjU7XG5cdFx0XHRsZXQgYm9yZGVyQ29sb3IgPSB7fTtcblx0XHRcdGJvcmRlckNvbG9yLnIgPSBjb2xvci5yIC0gaW5jcmVtZW50O1xuXHRcdFx0Ym9yZGVyQ29sb3IuZyA9IGNvbG9yLmcgLSBpbmNyZW1lbnQ7XG5cdFx0XHRib3JkZXJDb2xvci5iID0gY29sb3IuYiAtIGluY3JlbWVudDtcblxuXHRcdFx0Y29uc29sZS5sb2coYm9yZGVyQ29sb3IpXG5cblx0XHRcdHJldHVybiBgcmdiKCR7Ym9yZGVyQ29sb3IucioyNTV9LCR7Ym9yZGVyQ29sb3IuZyoyNTV9LCR7Ym9yZGVyQ29sb3IuYioyNTV9KWA7XG5cdFx0fSBlbHNlIHtcblx0XHRcdHJldHVybiBgdHJhbnNwYXJlbnRgXG5cdFx0fVxuXHR9XG5cbjwvc2NyaXB0PlxuXG48ZGl2IGNsYXNzPVwic3R5bGVcIj5cblx0PGRpdiBjbGFzcz1cInN0eWxlX19zd2F0Y2hcIj5cblx0XHR7I2lmIHN0eWxlLnR5cGUgPT09IFwiUEFJTlRcIn1cblx0XHRcdHsjZWFjaCBzdHlsZS5wYWludHMgYXMgcGFpbnR9XG5cdFx0XHRcdDxkaXYgY2xhc3M9XCJzd2F0Y2hfX2ZpbGxcIiBzdHlsZT17YGJvcmRlci1jb2xvcjoke2NhbGN1bGF0ZUJvcmRlcihwYWludC5jb2xvcil9O2JhY2tncm91bmQtY29sb3I6IHJnYmEoJHtwYWludC5jb2xvci5yKjI1NX0sJHtwYWludC5jb2xvci5nKjI1NX0sJHtwYWludC5jb2xvci5iKjI1NX0sJHtwYWludC5vcGFjaXR5fSk7YH0+PC9kaXY+XG5cdFx0XHR7L2VhY2h9XG5cdFx0ey9pZn1cblx0PC9kaXY+XG5cdDxkaXYgY2xhc3M9XCJzd2F0Y2hfX25hbWVcIj57c3R5bGUubmFtZX08L2Rpdj5cbjwvZGl2PlxuXG48c3R5bGU+XG5cdC5zdHlsZSB7XG5cdFx0cG9zaXRpb246IHJlbGF0aXZlO1xuXHRcdHBhZGRpbmc6ICA4cHggNHB4IDhweCAwcHg7XG5cdH1cblx0LnN3YXRjaF9fc3dhdGNoLFxuXHQuc3dhdGNoX19maWxsIHtcblx0XHRwb3NpdGlvbjogYWJzb2x1dGU7XG5cdFx0dG9wOiA4cHg7XG5cdFx0bGVmdDogMDtcblx0XHR3aWR0aDogMTZweDtcblx0XHRoZWlnaHQ6IDE2cHg7XG5cdFx0Ym9yZGVyLXJhZGl1czogNTAlO1xuXHRcdGJvcmRlci1zdHlsZTogIHNvbGlkO1xuXHRcdGJvcmRlci13aWR0aDogIDFweDtcblx0fVxuXHQuc3dhdGNoX19uYW1lIHtcblx0XHRtYXJnaW4tbGVmdDogMjRweDtcblx0fVxuPC9zdHlsZT4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBa0RDLE1BQU0sY0FBQyxDQUFDLEFBQ1AsUUFBUSxDQUFFLFFBQVEsQ0FDbEIsT0FBTyxDQUFHLEdBQUcsQ0FBQyxHQUFHLENBQUMsR0FBRyxDQUFDLEdBQUcsQUFDMUIsQ0FBQyxBQUVELGFBQWEsY0FBQyxDQUFDLEFBQ2QsUUFBUSxDQUFFLFFBQVEsQ0FDbEIsR0FBRyxDQUFFLEdBQUcsQ0FDUixJQUFJLENBQUUsQ0FBQyxDQUNQLEtBQUssQ0FBRSxJQUFJLENBQ1gsTUFBTSxDQUFFLElBQUksQ0FDWixhQUFhLENBQUUsR0FBRyxDQUNsQixZQUFZLENBQUcsS0FBSyxDQUNwQixZQUFZLENBQUcsR0FBRyxBQUNuQixDQUFDLEFBQ0QsYUFBYSxjQUFDLENBQUMsQUFDZCxXQUFXLENBQUUsSUFBSSxBQUNsQixDQUFDIn0= */";
+    	style.textContent = ".style.svelte-76wsfz{position:relative;padding:8px 4px 8px 0px}.swatch__fill.svelte-76wsfz{position:absolute;top:8px;left:0;width:16px;height:16px;border-radius:50%;border-style:solid;border-width:1px}.swatch__name.svelte-76wsfz{margin-left:24px}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiU3R5bGVTd2F0Y2guc3ZlbHRlIiwic291cmNlcyI6WyJTdHlsZVN3YXRjaC5zdmVsdGUiXSwic291cmNlc0NvbnRlbnQiOlsiPHNjcmlwdD5cblx0ZXhwb3J0IGxldCBzdHlsZTtcblx0Y29uc29sZS5sb2coc3R5bGUpXG5cblxuXG5cblx0Ly8gc3R5bGUucGFpbnRzID0gW11cblx0Ly8gc3R5bGUucGFpbnRzLm9wYWNpdHlcblx0Ly8gc3R5bGUucGFpbnRzLmNvbG9yLnJcblx0Ly8gc3R5bGUucGFpbnRzLmNvbG9yLmdcblx0Ly8gc3R5bGUucGFpbnRzLmNvbG9yLmJcblxuXHQvL3tgYmFja2dyb3VuZC1jb2xvcjogcmdiYSgke3BhaW50LmNvbG9yLnJ9LCR7cGFpbnQuY29sb3IuZ30sJHtwYWludC5jb2xvci5ifSwke3BhaW50Lm9wYWNpdHl9KWB9XG5cblx0Ly8gY29uc29sZS5sb2coc3R5bGUudHlwZSlcblxuXHRmdW5jdGlvbiBjYWxjdWxhdGVCb3JkZXIoY29sb3IpIHtcblx0XHQvLyBpZiAoY29sb3IuciArIGNvbG9yLmcgKyBjb2xvci5iKVxuXHRcdGNvbnNvbGUubG9nKGNvbG9yLnIgKyBjb2xvci5nICsgY29sb3IuYiA+IDIuNzUpXG5cdFx0Y29uc29sZS5sb2coJ2hpaScpXG5cdFx0aWYgKGNvbG9yLnIgKyBjb2xvci5nICsgY29sb3IuYiA+IDIuNzUpIHtcblx0XHRcdC8vIHJldHVybiBjb2xvci5yICsgY29sb3IuZyArIGNvbG9yLmJcblx0XHRcdGxldCBpbmNyZW1lbnQgPSAuMjU7XG5cdFx0XHRsZXQgYm9yZGVyQ29sb3IgPSB7fTtcblx0XHRcdGJvcmRlckNvbG9yLnIgPSBjb2xvci5yIC0gaW5jcmVtZW50O1xuXHRcdFx0Ym9yZGVyQ29sb3IuZyA9IGNvbG9yLmcgLSBpbmNyZW1lbnQ7XG5cdFx0XHRib3JkZXJDb2xvci5iID0gY29sb3IuYiAtIGluY3JlbWVudDtcblxuXHRcdFx0Y29uc29sZS5sb2coYm9yZGVyQ29sb3IpXG5cblx0XHRcdHJldHVybiBgcmdiKCR7Ym9yZGVyQ29sb3IucioyNTV9LCR7Ym9yZGVyQ29sb3IuZyoyNTV9LCR7Ym9yZGVyQ29sb3IuYioyNTV9KWA7XG5cdFx0fSBlbHNlIHtcblx0XHRcdHJldHVybiBgdHJhbnNwYXJlbnRgXG5cdFx0fVxuXHR9XG5cbjwvc2NyaXB0PlxueyNpZiB0eXBlb2Ygc3R5bGUgIT09ICd1bmRlZmluZWQnfVxuPGRpdiBjbGFzcz1cInN0eWxlXCI+XG5cdDxkaXYgY2xhc3M9XCJzdHlsZV9fc3dhdGNoXCI+XG5cdFx0eyNpZiBzdHlsZS50eXBlID09PSBcIlBBSU5UXCJ9XG5cdFx0XHR7I2VhY2ggc3R5bGUucGFpbnRzIGFzIHBhaW50fVxuXHRcdFx0XHQ8ZGl2IGNsYXNzPVwic3dhdGNoX19maWxsXCIgc3R5bGU9e2Bib3JkZXItY29sb3I6JHtjYWxjdWxhdGVCb3JkZXIocGFpbnQuY29sb3IpfTtiYWNrZ3JvdW5kLWNvbG9yOiByZ2JhKCR7cGFpbnQuY29sb3IucioyNTV9LCR7cGFpbnQuY29sb3IuZyoyNTV9LCR7cGFpbnQuY29sb3IuYioyNTV9LCR7cGFpbnQub3BhY2l0eX0pO2B9PjwvZGl2PlxuXHRcdFx0ey9lYWNofVxuXHRcdHsvaWZ9XG5cdDwvZGl2PlxuXHR7I2lmIHN0eWxlLnR5cGUgPT09IFwiUEFJTlRcIn1cblx0PGRpdiBjbGFzcz1cInN3YXRjaF9fbmFtZVwiPntzdHlsZS5uYW1lfTwvZGl2PlxuXHR7L2lmfVxuPC9kaXY+XG57L2lmfVxuPHN0eWxlPlxuXHQuc3R5bGUge1xuXHRcdHBvc2l0aW9uOiByZWxhdGl2ZTtcblx0XHRwYWRkaW5nOiAgOHB4IDRweCA4cHggMHB4O1xuXHR9XG5cdC5zd2F0Y2hfX3N3YXRjaCxcblx0LnN3YXRjaF9fZmlsbCB7XG5cdFx0cG9zaXRpb246IGFic29sdXRlO1xuXHRcdHRvcDogOHB4O1xuXHRcdGxlZnQ6IDA7XG5cdFx0d2lkdGg6IDE2cHg7XG5cdFx0aGVpZ2h0OiAxNnB4O1xuXHRcdGJvcmRlci1yYWRpdXM6IDUwJTtcblx0XHRib3JkZXItc3R5bGU6ICBzb2xpZDtcblx0XHRib3JkZXItd2lkdGg6ICAxcHg7XG5cdH1cblx0LnN3YXRjaF9fbmFtZSB7XG5cdFx0bWFyZ2luLWxlZnQ6IDI0cHg7XG5cdH1cbjwvc3R5bGU+Il0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQXFEQyxNQUFNLGNBQUMsQ0FBQyxBQUNQLFFBQVEsQ0FBRSxRQUFRLENBQ2xCLE9BQU8sQ0FBRyxHQUFHLENBQUMsR0FBRyxDQUFDLEdBQUcsQ0FBQyxHQUFHLEFBQzFCLENBQUMsQUFFRCxhQUFhLGNBQUMsQ0FBQyxBQUNkLFFBQVEsQ0FBRSxRQUFRLENBQ2xCLEdBQUcsQ0FBRSxHQUFHLENBQ1IsSUFBSSxDQUFFLENBQUMsQ0FDUCxLQUFLLENBQUUsSUFBSSxDQUNYLE1BQU0sQ0FBRSxJQUFJLENBQ1osYUFBYSxDQUFFLEdBQUcsQ0FDbEIsWUFBWSxDQUFHLEtBQUssQ0FDcEIsWUFBWSxDQUFHLEdBQUcsQUFDbkIsQ0FBQyxBQUNELGFBQWEsY0FBQyxDQUFDLEFBQ2QsV0FBVyxDQUFFLElBQUksQUFDbEIsQ0FBQyJ9 */";
     	append_dev(document.head, style);
     }
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[2] = list[i];
+    	child_ctx[1] = list[i];
     	return child_ctx;
     }
 
-    // (41:2) {#if style.type === "PAINT"}
+    // (39:0) {#if typeof style !== 'undefined'}
     function create_if_block$4(ctx) {
+    	let div1;
+    	let div0;
+    	let t;
+    	let if_block0 = /*style*/ ctx[0].type === "PAINT" && create_if_block_2$2(ctx);
+    	let if_block1 = /*style*/ ctx[0].type === "PAINT" && create_if_block_1$2(ctx);
+
+    	const block = {
+    		c: function create() {
+    			div1 = element("div");
+    			div0 = element("div");
+    			if (if_block0) if_block0.c();
+    			t = space();
+    			if (if_block1) if_block1.c();
+    			attr_dev(div0, "class", "style__swatch");
+    			add_location(div0, file$8, 40, 1, 922);
+    			attr_dev(div1, "class", "style svelte-76wsfz");
+    			add_location(div1, file$8, 39, 0, 901);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div1, anchor);
+    			append_dev(div1, div0);
+    			if (if_block0) if_block0.m(div0, null);
+    			append_dev(div1, t);
+    			if (if_block1) if_block1.m(div1, null);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (/*style*/ ctx[0].type === "PAINT") {
+    				if (if_block0) {
+    					if_block0.p(ctx, dirty);
+    				} else {
+    					if_block0 = create_if_block_2$2(ctx);
+    					if_block0.c();
+    					if_block0.m(div0, null);
+    				}
+    			} else if (if_block0) {
+    				if_block0.d(1);
+    				if_block0 = null;
+    			}
+
+    			if (/*style*/ ctx[0].type === "PAINT") {
+    				if (if_block1) {
+    					if_block1.p(ctx, dirty);
+    				} else {
+    					if_block1 = create_if_block_1$2(ctx);
+    					if_block1.c();
+    					if_block1.m(div1, null);
+    				}
+    			} else if (if_block1) {
+    				if_block1.d(1);
+    				if_block1 = null;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div1);
+    			if (if_block0) if_block0.d();
+    			if (if_block1) if_block1.d();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block$4.name,
+    		type: "if",
+    		source: "(39:0) {#if typeof style !== 'undefined'}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (42:2) {#if style.type === "PAINT"}
+    function create_if_block_2$2(ctx) {
     	let each_1_anchor;
     	let each_value = /*style*/ ctx[0].paints;
     	validate_each_argument(each_value);
@@ -4308,16 +4380,16 @@ var ui = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block$4.name,
+    		id: create_if_block_2$2.name,
     		type: "if",
-    		source: "(41:2) {#if style.type === \\\"PAINT\\\"}",
+    		source: "(42:2) {#if style.type === \\\"PAINT\\\"}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (42:3) {#each style.paints as paint}
+    // (43:3) {#each style.paints as paint}
     function create_each_block$1(ctx) {
     	let div;
     	let div_style_value;
@@ -4326,14 +4398,14 @@ var ui = (function () {
     		c: function create() {
     			div = element("div");
     			attr_dev(div, "class", "swatch__fill svelte-76wsfz");
-    			attr_dev(div, "style", div_style_value = `border-color:${calculateBorder(/*paint*/ ctx[2].color)};background-color: rgba(${/*paint*/ ctx[2].color.r * 255},${/*paint*/ ctx[2].color.g * 255},${/*paint*/ ctx[2].color.b * 255},${/*paint*/ ctx[2].opacity});`);
-    			add_location(div, file$8, 42, 4, 979);
+    			attr_dev(div, "style", div_style_value = `border-color:${calculateBorder(/*paint*/ ctx[1].color)};background-color: rgba(${/*paint*/ ctx[1].color.r * 255},${/*paint*/ ctx[1].color.g * 255},${/*paint*/ ctx[1].color.b * 255},${/*paint*/ ctx[1].opacity});`);
+    			add_location(div, file$8, 43, 4, 1018);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*style*/ 1 && div_style_value !== (div_style_value = `border-color:${calculateBorder(/*paint*/ ctx[2].color)};background-color: rgba(${/*paint*/ ctx[2].color.r * 255},${/*paint*/ ctx[2].color.g * 255},${/*paint*/ ctx[2].color.b * 255},${/*paint*/ ctx[2].opacity});`)) {
+    			if (dirty & /*style*/ 1 && div_style_value !== (div_style_value = `border-color:${calculateBorder(/*paint*/ ctx[1].color)};background-color: rgba(${/*paint*/ ctx[1].color.r * 255},${/*paint*/ ctx[1].color.g * 255},${/*paint*/ ctx[1].color.b * 255},${/*paint*/ ctx[1].opacity});`)) {
     				attr_dev(div, "style", div_style_value);
     			}
     		},
@@ -4346,7 +4418,43 @@ var ui = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(42:3) {#each style.paints as paint}",
+    		source: "(43:3) {#each style.paints as paint}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (48:1) {#if style.type === "PAINT"}
+    function create_if_block_1$2(ctx) {
+    	let div;
+    	let t_value = /*style*/ ctx[0].name + "";
+    	let t;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			t = text(t_value);
+    			attr_dev(div, "class", "swatch__name svelte-76wsfz");
+    			add_location(div, file$8, 48, 1, 1269);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    			append_dev(div, t);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*style*/ 1 && t_value !== (t_value = /*style*/ ctx[0].name + "")) set_data_dev(t, t_value);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1$2.name,
+    		type: "if",
+    		source: "(48:1) {#if style.type === \\\"PAINT\\\"}",
     		ctx
     	});
 
@@ -4354,61 +4462,40 @@ var ui = (function () {
     }
 
     function create_fragment$8(ctx) {
-    	let div2;
-    	let div0;
-    	let t0;
-    	let div1;
-    	let t1_value = /*style*/ ctx[0].name + "";
-    	let t1;
-    	let if_block = /*style*/ ctx[0].type === "PAINT" && create_if_block$4(ctx);
+    	let if_block_anchor;
+    	let if_block = typeof /*style*/ ctx[0] !== "undefined" && create_if_block$4(ctx);
 
     	const block = {
     		c: function create() {
-    			div2 = element("div");
-    			div0 = element("div");
     			if (if_block) if_block.c();
-    			t0 = space();
-    			div1 = element("div");
-    			t1 = text(t1_value);
-    			attr_dev(div0, "class", "style__swatch");
-    			add_location(div0, file$8, 39, 1, 883);
-    			attr_dev(div1, "class", "swatch__name svelte-76wsfz");
-    			add_location(div1, file$8, 46, 1, 1200);
-    			attr_dev(div2, "class", "style svelte-76wsfz");
-    			add_location(div2, file$8, 38, 0, 862);
+    			if_block_anchor = empty();
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div2, anchor);
-    			append_dev(div2, div0);
-    			if (if_block) if_block.m(div0, null);
-    			append_dev(div2, t0);
-    			append_dev(div2, div1);
-    			append_dev(div1, t1);
+    			if (if_block) if_block.m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
     		},
     		p: function update(ctx, [dirty]) {
-    			if (/*style*/ ctx[0].type === "PAINT") {
+    			if (typeof /*style*/ ctx[0] !== "undefined") {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
     					if_block = create_if_block$4(ctx);
     					if_block.c();
-    					if_block.m(div0, null);
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
     				}
     			} else if (if_block) {
     				if_block.d(1);
     				if_block = null;
     			}
-
-    			if (dirty & /*style*/ 1 && t1_value !== (t1_value = /*style*/ ctx[0].name + "")) set_data_dev(t1, t1_value);
     		},
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div2);
-    			if (if_block) if_block.d();
+    			if (if_block) if_block.d(detaching);
+    			if (detaching) detach_dev(if_block_anchor);
     		}
     	};
 
@@ -4446,7 +4533,7 @@ var ui = (function () {
 
     function instance$8($$self, $$props, $$invalidate) {
     	let { style } = $$props;
-    	let type = "";
+    	console.log(style);
     	const writable_props = ["style"];
 
     	Object.keys($$props).forEach(key => {
@@ -4460,11 +4547,10 @@ var ui = (function () {
     		if ("style" in $$props) $$invalidate(0, style = $$props.style);
     	};
 
-    	$$self.$capture_state = () => ({ style, type, calculateBorder });
+    	$$self.$capture_state = () => ({ style, calculateBorder });
 
     	$$self.$inject_state = $$props => {
     		if ("style" in $$props) $$invalidate(0, style = $$props.style);
-    		if ("type" in $$props) type = $$props.type;
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -4554,7 +4640,7 @@ var ui = (function () {
     }
 
     // (90:2) {#if style.name.length}
-    function create_if_block_2$2(ctx) {
+    function create_if_block_2$3(ctx) {
     	let current;
 
     	const styleswatch = new StyleSwatch({
@@ -4593,7 +4679,7 @@ var ui = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_2$2.name,
+    		id: create_if_block_2$3.name,
     		type: "if",
     		source: "(90:2) {#if style.name.length}",
     		ctx
@@ -4608,7 +4694,7 @@ var ui = (function () {
     	let current_block_type_index;
     	let if_block;
     	let current;
-    	const if_block_creators = [create_if_block_1$2, create_else_block$4];
+    	const if_block_creators = [create_if_block_1$3, create_else_block$4];
     	const if_blocks = [];
 
     	function select_block_type_1(ctx, dirty) {
@@ -4713,7 +4799,7 @@ var ui = (function () {
     }
 
     // (98:3) {#if $swapList.length > 0}
-    function create_if_block_1$2(ctx) {
+    function create_if_block_1$3(ctx) {
     	let each_blocks = [];
     	let each_1_lookup = new Map();
     	let each_1_anchor;
@@ -4782,7 +4868,7 @@ var ui = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_1$2.name,
+    		id: create_if_block_1$3.name,
     		type: "if",
     		source: "(98:3) {#if $swapList.length > 0}",
     		ctx
@@ -4875,7 +4961,7 @@ var ui = (function () {
     	let t1;
     	let current;
     	let dispose;
-    	const if_block_creators = [create_if_block_2$2, create_else_block_1$1];
+    	const if_block_creators = [create_if_block_2$3, create_else_block_1$1];
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {

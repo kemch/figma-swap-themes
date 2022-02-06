@@ -169,12 +169,13 @@ const Themes = {
 
 Themes.initPlugin();
 
-figma.showUI(__html__, {width: 300, height: 500 });
+figma.showUI(__html__, {width: 420, height: 500 });
 
 const paints = figma.getLocalPaintStyles();
 const effects = figma.getLocalEffectStyles();
 
 let localPaintStyles = [];
+let localEffectStyles = [];
 
 for (let obj of paints) {
 	let o = {
@@ -193,8 +194,7 @@ for (let obj of paints) {
 	o.value = obj.id;
 	o.type = obj.type;
 	for (let paint of obj.paints) {
-		console.log(paint)
-		o.paints.push(paint)
+		o.paints.push(paint);
 	}
 	localPaintStyles.push(o)
 }
@@ -204,22 +204,26 @@ for (let obj of paints) {
 // 	// o.paints = obj.paints;
 // 	// return o;
 // });
-const localEffectStyles = effects.map(obj => {
+for (let obj of effects) {
 	let o = {
 		id: '',
 		name:'',
 		label:'',
 		value:'',
 		type: '',
-		paints: [],
+		effects: [],
 	}
 	o.id = obj.id;
 	o.name = figma.getStyleById(obj.id).name;
 	o.label = figma.getStyleById(obj.id).name;
 	o.value = obj.id;
 	o.type = obj.type;
-	return o;
-})
+	console.log(o)
+	for (let effect of obj.effects) {
+		o.effects.push(effect);
+	}
+	localEffectStyles.push
+}
 
 // const localStyles = localPaintStyles;
 const localStyles = localPaintStyles.concat(localEffectStyles);
