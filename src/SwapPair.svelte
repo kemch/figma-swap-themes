@@ -1,11 +1,14 @@
 <script>
-	import { themes, localStyles } from './stores.js';
-	import { Button, Input, Label, SelectMenu } from 'figma-plugin-ds-svelte';
+	import { themes } from './stores.js';
+	import { Button, Input, Label, SelectMenu, IconClose, Icon, IconButton } from 'figma-plugin-ds-svelte';
 	import StylesMenu from './StylesMenu.svelte';
 
 	export let theme;
 	export let swap;
 	export let index;
+
+	// console.log($themes)
+	// console.log(swap)
 
 	function deleteSwapPair() {
 		$themes[theme].swaps.splice(index, 1);
@@ -26,20 +29,25 @@
 		<StylesMenu theme={theme} direction={'to'} style={swap.to} />
 	</div>
 	<div class="swap__options">
-		<Button variant="secondary" on:click={deleteSwapPair}>&times;</Button>
+		<IconButton iconName={IconClose} on:click={deleteSwapPair}/>
 	</div>
 </div>
 
 <style>
 	.swap {
 		display:  flex;
+		flex:  1 1 100%;
+		width:  100%;
+		align-items:  center;
 
 	}
 	.swap__from,
 	.swap__to {
-		/*width:  40%;*/
-		width:  auto;
-		margin:  10px;
+		position:  relative;
+		display: flex;
+		flex:  1 1 100%;
+		width:  100%;
+		margin-right:  10px;
 	}
 
 	.swap__options {

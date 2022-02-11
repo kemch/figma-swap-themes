@@ -6,7 +6,7 @@
 	import { GlobalCSS } from 'figma-plugin-ds-svelte';
 
 	//import some Svelte Figma UI components
-	import { Button, Input, Label, SelectMenu } from 'figma-plugin-ds-svelte';
+	import { Button, Input, Label, SelectMenu, IconButton, Icon, IconPlus } from 'figma-plugin-ds-svelte';
 
 	import Themes from './Themes.svelte';
 
@@ -20,6 +20,7 @@
 		}
 		if (event.data.pluginMessage.themes) {
 			$themes = event.data.pluginMessage.themes;
+			console.log($themes)
 			// console.log(event.data.pluginMessage.themes)
 		}
 	}
@@ -32,15 +33,35 @@
 
 </script>
 
-
-<div class="wrapper p-xxsmall">
-
-	<Button on:click={addNewTheme}>New Theme</Button>
-
+<div class="header">
+	<div class="header__left">Themes</div>
+	<div class="header__right">
+		<!-- <Button variant="tertiary" on:click={addNewTheme}>New Theme</Button> -->
+		<IconButton iconName={IconPlus} on:click={addNewTheme} />
+	</div>
+</div>
+<div class="content">
 	<Themes />
 </div>
 
 
 <style>
-/* Add additional global or scoped styles here */
+	.header {
+		display:  flex;
+		align-items:  center;
+		padding:  8px;
+	}
+ .header__left {
+ 	font-size:  12px;
+ 	font-weight: 700;
+ 	padding-left:  16px;
+ }
+ .header__right {
+ 	margin-left:  auto;
+ 	text-align:  right;
+ }
+ .content {
+ 	padding-left:  24px;
+ 	padding-right:  24px;
+ }
 </style>

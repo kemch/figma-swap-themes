@@ -1,33 +1,18 @@
 <script>
 	export let style;
-	console.log(style)
+	export let dropdown;
 
-
-
-
-	// style.paints = []
-	// style.paints.opacity
-	// style.paints.color.r
-	// style.paints.color.g
-	// style.paints.color.b
-
-	//{`background-color: rgba(${paint.color.r},${paint.color.g},${paint.color.b},${paint.opacity})`}
-
-	// console.log(style.type)
+	// console.log('style')
+	// console.log(style)
+	import { Icon, IconEffects, IconLibrary, IconBack } from 'figma-plugin-ds-svelte';
 
 	function calculateBorder(color) {
-		// if (color.r + color.g + color.b)
-		console.log(color.r + color.g + color.b > 2.75)
-		console.log('hii')
 		if (color.r + color.g + color.b > 2.75) {
-			// return color.r + color.g + color.b
 			let increment = .25;
 			let borderColor = {};
 			borderColor.r = color.r - increment;
 			borderColor.g = color.g - increment;
 			borderColor.b = color.b - increment;
-
-			console.log(borderColor)
 
 			return `rgb(${borderColor.r*255},${borderColor.g*255},${borderColor.b*255})`;
 		} else {
@@ -38,27 +23,67 @@
 </script>
 {#if typeof style !== 'undefined'}
 <div class="style">
-	<div class="style__swatch">
-		{#if style.type === "PAINT"}
+
+	{#if style.type === "PAINT"}
+		<div class="style__swatch">
 			{#each style.paints as paint}
 				<div class="swatch__fill" style={`border-color:${calculateBorder(paint.color)};background-color: rgba(${paint.color.r*255},${paint.color.g*255},${paint.color.b*255},${paint.opacity});`}></div>
 			{/each}
-		{/if}
-	</div>
-	{#if style.type === "PAINT"}
-	<div class="swatch__name">{style.name}</div>
+		</div>
 	{/if}
+	{#if style.type === "EFFECT"}
+		<div class="swatch__effect">
+			<Icon class="swatch__effect__icon" iconName={IconEffects} />
+		</div>
+	{/if}
+	<div class="swatch__name">{style.name ? style.name : style.id}</div>
+	{#if dropdown && !style.remote && !style.missing}
+	<div class="swatch__pulldown">
+		<Icon iconName={IconBack} />
+	</div>
+	{/if}
+	{#if style.remote}
+		<div class="swatch__library" title="This style is from a team library.">
+			<Icon iconName={IconLibrary}/>
+		</div>
+	{/if}
+	{#if style.missing}
+		<div class="swatch__missing" title="This style is not available in this document.">?</div>
+	{/if}
+	
 </div>
+{:else}
+	Style undefined
 {/if}
 <style>
 	.style {
 		position: relative;
 		padding:  8px 4px 8px 0px;
+		display: flex;
+		align-items: center;
+		flex:  1 1 100%;
+		width:  100%;
 	}
-	.swatch__swatch,
+	.swatch__effect {
+		
+		margin-left: -7px;
+		margin-right:  8px;
+		margin-top: -16px;
+		width: 16px;
+		height: 16px;
+	}
+	.style__swatch {
+		position: relative;
+		width: 16px;
+		height: 16px;
+		/*border-radius: 50%;*/
+		/*border-style:  solid;*/
+		/*border-width:  1px;*/
+		flex:  0 0 16px;
+	}
 	.swatch__fill {
 		position: absolute;
-		top: 8px;
+		top: 0;
 		left: 0;
 		width: 16px;
 		height: 16px;
@@ -67,6 +92,27 @@
 		border-width:  1px;
 	}
 	.swatch__name {
-		margin-left: 24px;
+		margin-left: 8px;
+		width: auto;
+		flex:  1 1 100%;
 	}
+
+	.swatch__pulldown {
+		transform: rotate(-90deg);
+	}
+	.swatch__missing {
+		display: inline-flex;
+		padding:  2px 4px;
+		background-color:  #FCEA4F;
+		border-radius:  5px;
+	}
+	.swatch__library {
+		opacity: 0.5;
+	}
+	.swatch__pulldown,
+	.swatch__library,
+	.swatch__missing {
+
+	}
+	
 </style>

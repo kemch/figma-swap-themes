@@ -6,11 +6,31 @@
 	export let direction;
 	export let theme;
 
-
 	let value = style.id;
 	let list = [];
 	let open = false;
 	let menu = null;
+
+	function selectStyle(localStyle) {
+		// console.log(localStyle)
+		style.id = localStyle.id;
+		style.name = localStyle.name;
+		style.key = localStyle.key;
+		style.remote  = localStyle.remote;
+		style.type  = localStyle.type;
+		style.missing = localStyle.missing;
+		
+		if (style.type === "PAINT") {
+			style.paints = localStyle.paints;
+		}
+		toggleMenu();
+		lookupStyle(style.id);
+		parent.postMessage({ pluginMessage: { 
+			'type': 'updateThemes',
+			'themes': $themes
+		} }, '*');
+	}
+
 
 	onMount(() => {
 		const handleOutsideClick = (event) => {
@@ -44,17 +64,6 @@
 		}
 	}
 
-	function selectStyle(localStyle) {
-		style.id = localStyle.id;
-		style.name = localStyle.name;
-		toggleMenu();
-		lookupStyle(style.id)
-		parent.postMessage({ pluginMessage: { 
-			'type': 'updateThemes',
-			'themes': $themes
-		} }, '*');
-	}
-
 
 	function filterList(item) {
 
@@ -78,17 +87,26 @@
 	}
 
 	function toggleMenu() {
-		updateList()
-		open = !open;
+		if (!style.missing) {
+			updateList()
+			open = !open;
+		}
+	}
+
+	function checkIfLibrary() {
+
 	}
 </script>
 
 
 <div class="menu" bind:this={menu}>
 	<div class="menu__content" on:click={toggleMenu}>
+
 		<input type="hidden" bind:value={value} >
 		{#if style.name.length}
-			<StyleSwatch style={lookupStyle(style.id)} />
+
+			<StyleSwatch style={style} dropdown={true}/>
+			<!-- <StyleSwatch style={lookupStyle(style.id)} /> -->			
 		{:else}
 			Select Style
 		{/if}
@@ -110,12 +128,35 @@
 
 <style>
 	.menu__content,
+	.menu {
+		position:  relative;
+		display: flex;
+		flex:  1 1 100%;
+		width:  100%;
+	}
+	.menu__content,
 	.menu__option {
 		font-size:  12px;
 		cursor: pointer;
 	}
+	.menu__content:hover,
 	.menu__option:hover {
-		background-color:  yellow;
+		background-color:  #E8F6FF;
+	}
+	.menu__content {
+		/*white-space: nowrap;*/
+	}
+
+	.menu__dropdown {
+		z-index: 10;
+		width:  100%;
+		position:  absolute;
+		background-color:  white;
+		padding: 4px 8px;
+		margin-left: -4px;
+		top: 32px;
+		box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.08), 0px 2px 6px rgba(0, 0, 0, 0.16);
+		border-radius: 6px;
 	}
 </style>
 
