@@ -47,12 +47,14 @@
 			'themes': $themes
 		} }, '*');
 	}
+
 	function applyTheme() {
 		parent.postMessage({ pluginMessage: { 
 			'type': 'applyTheme',
 			'theme': {theme, index}
 		} }, '*');
 	}
+
 	function editTheme() {
 		editing = !editing;
 	}

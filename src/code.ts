@@ -259,11 +259,24 @@ const Themes = {
 	},
 	
 	applyTheme(nodes:Array<any>, theme): void {
-	
+
 		for (const node of nodes) {
-			// console.log(node)
+			// console.log(theme)
+			// console.log(this.themes[theme.index])
+			// console.log(this.themes[theme.index])
+			// console.log(this.themes[theme.index])
 			// this.swapStyle(node, this.getStyles(node), this.themes[theme])
-			this.swapStyle(node, this.themes[theme])
+			if (node.type === "TEXT" && typeof node.fillStyleId == "symbol") {
+				let segments = node.getStyledTextSegments(['fillStyleId']);
+				console.log(node.characters)
+				console.log(segments)
+				for (let segment of node.getStyledTextSegments(['fillStyleId']) ) {
+					this.swapStyle(node, this.themes[theme.index], segment);
+				}
+			} else {
+				this.swapStyle(node, this.themes[theme.index])
+
+			}
 
 			if (node.type == 'COMPONENT' ||
 				node.type == 'INSTANCE' ||
@@ -279,23 +292,43 @@ const Themes = {
 		}
 	},
 
-	async swapStyle(node, theme) {
-		if (!!node.fillStyleId) {
+	async swapStyle(node, theme, segment) {
+
+		let n;
+		if (typeof segment == 'undefined') {
+			n = node;
+		} else {
+			n = segment;
+		}
+
+		if (!!n.fillStyleId) {
 			const regex = /(S:)(.+)(,)/;
-			const match = regex.exec(node.fillStyleId);
+			const match = regex.exec(n.fillStyleId);
 			const id = match[1]+match[2]+match[3];
 			const key = match[2];
 			for (let swap of theme.swaps) {
 				if (id === swap.from.id && !swap.to.remote) {
-					node.fillStyleId = swap.to.id;
+					if (typeof segment == "undefined") {
+						node.fillStyleId = swap.to.id;
+					} else {
+						node.setRangeFillStyleId(segment.start, segment.end, swap.to.id)
+					}
 					console.log(`Swapped to local style ${swap.to.name}`)
 				} else if (id === swap.to.id && !swap.from.remote) {
-					node.fillStyleId = swap.from.id;
+					if (typeof segment == "undefined") {
+						node.fillStyleId = swap.from.id;
+					} else {
+						node.setRangeFillStyleId(segment.start, segment.end, swap.from.id)
+					}
 					console.log(`Swapped to local style ${swap.from.name}`)
 				} else if (id === swap.from.id && swap.to.remote) {
 					try {
 						const remoteStyle = await figma.importStyleByKeyAsync(swap.to.key);
-						node.fillStyleId = remoteStyle.id;
+						if (typeof segment == "undefined") {
+							node.fillStyleId = remoteStyle.id;
+						} else {
+							node.setRangeFillStyleId(segment.start, segment.end, remoteStyle.id)
+						}
 						console.log(`Swapped to team style ${swap.to.name}`)
 					} catch(e) {
 						console.log(e);
@@ -303,7 +336,12 @@ const Themes = {
 				} else if (id === swap.to.id && swap.from.remote) {
 					try {
 						const remoteStyle = await figma.importStyleByKeyAsync(swap.from.key);
-						node.fillStyleId = remoteStyle.id;
+						if (typeof segment == "undefined") {
+							node.fillStyleId = remoteStyle.id;
+						} else {
+							console.log('HI')
+							node.setRangeFillStyleId(segment.start, segment.end, remoteStyle.id)
+						}
 						console.log(`Swapped to team style ${swap.from.name}`)
 					} catch(e) {
 						console.log(e);
@@ -312,7 +350,7 @@ const Themes = {
 			}
 		}
 
-		if (!!node.strokeStyleId) {
+		if (!!n.strokeStyleId) {
 			const regex = /(S:)(.+)(,)/;
 			const match = regex.exec(node.strokeStyleId);
 			const id = match[1]+match[2]+match[3];
@@ -344,7 +382,7 @@ const Themes = {
 			}
 		}
 
-		if (!!node.effectStyleId) {
+		if (!!n.effectStyleId) {
 			const regex = /(S:)(.+)(,)/;
 			const match = regex.exec(node.effectStyleId);
 			const id = match[1]+match[2]+match[3];
@@ -583,14 +621,13 @@ figma.ui.onmessage = msg => {
 	if (msg.type === 'applyTheme') {
 		const selection = figma.currentPage.selection as any;
 		const swapMap = {};
-		for (let swap of Themes.themes[msg.themes.index].swaps) {
+
+		for (let swap of Themes.themes[msg.theme.index].swaps) {
 			swapMap[swap.from.id] = swap.to.id;
 			swapMap[swap.to.id] = swap.from.id;
 		}
 
-		// console.log(swapMap)
-
-		Themes.applyTheme(selection, msg.themes);
+		Themes.applyTheme(selection, msg.theme);
 	}
 	
 };
