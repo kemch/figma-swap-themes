@@ -5,11 +5,12 @@
 	import SwapPair from './SwapPair.svelte';
 	export let theme;
 	export let index;
+
 	let editing = false;
-
 	let value = theme.name;
-
 	const themeIndex = index;
+
+	console.log($themes[themeIndex].swaps)
 	
 	function deleteTheme() {
 		parent.postMessage({ pluginMessage: { 
@@ -57,13 +58,18 @@
 
 	function editTheme() {
 		editing = !editing;
+		if (editing) {
+			parent.postMessage({ pluginMessage: { 
+				'type': 'loadStylesInThemeEdit',
+				'theme': {theme, index}
+			} }, '*');
+		}
 	}
 </script>
 
 <div class="theme" on:click|self={applyTheme} role="button">
 	{value}
 	<div class="theme__actions">
-		<!-- <Button variant="secondary" on:click={applyTheme}>Apply</Button> -->
 		<IconButton iconName={IconAdjust} on:click={editTheme} />
 	</div>
 </div>
@@ -81,8 +87,13 @@
 			</div>
 		</div>
 		<div class="theme-edit__content">
-			<!-- <Button variant="secondary" on:click={editTheme}>Back</Button> -->
+			
 			<Input class="theme__field__name" bind:value={value} on:blur={updateTheme}/>
+
+			<div class="swaps__heading">
+				<div class="swaps__heading__from">From:<div class="swaps__heading__icon">⇆</div></div>
+				<div class="swaps__heading__to">To:</div>
+			</div>
 
 			{#each theme.swaps as swap, index}
 			<SwapPair theme={themeIndex} swap={swap} index={index}/>
@@ -159,6 +170,25 @@
 		flex:  1 1 100%;
 		width:  100%;
 	}
+	.swaps__heading {
+		font-size:  11px;
+		display: flex;
+		align-items: center;
+		min-height: 32px;
+	}
+	.swaps__heading__to,
+	.swaps__heading__from {
+		position:  relative;
+		display: flex;
+		flex:  1 1 100%;
+		width:  100%;
+		margin-right:  10px;
+	}
+	.swaps__heading__icon {
+		margin-left:  auto;
+		text-align: right;
+	}
+	.swaps__heading__to {}
 	:global(.theme__field__name > input) {
 		background-color:  #fafafa !important;
 		border:  1px solid #f2f2f2 !important;

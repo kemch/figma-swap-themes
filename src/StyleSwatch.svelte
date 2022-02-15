@@ -4,7 +4,7 @@
 
 	// console.log('style')
 	// console.log(style)
-	import { Icon, IconEffects, IconLibrary, IconBack } from 'figma-plugin-ds-svelte';
+	import { Icon, IconEffects, IconLibrary, IconBack, IconImage } from 'figma-plugin-ds-svelte';
 
 	function calculateBorder(color) {
 		if (color.r + color.g + color.b > 2.75) {
@@ -27,7 +27,13 @@
 	{#if style.type === "PAINT"}
 		<div class="style__swatch">
 			{#each style.paints as paint}
-				<div class="swatch__fill" style={`border-color:${calculateBorder(paint.color)};background-color: rgba(${paint.color.r*255},${paint.color.g*255},${paint.color.b*255},${paint.opacity});`}></div>
+				{#if paint.type === "SOLID"}
+					<div class="swatch__fill" style={`border-color:${calculateBorder(paint.color)};background-color: rgba(${paint.color.r*255},${paint.color.g*255},${paint.color.b*255},${paint.opacity});`}></div>
+				{:else if (paint.type === "IMAGE")}
+					<div class="swatch__image">
+						<Icon iconName={IconImage} />
+					</div>
+				{/if}
 			{/each}
 		</div>
 	{/if}
@@ -55,20 +61,24 @@
 {:else}
 	Style undefined
 {/if}
+
 <style>
 	.style {
 		position: relative;
-		padding:  8px 4px 8px 0px;
+		padding:  2px 4px 2px 0px;
 		display: flex;
 		align-items: center;
 		flex:  1 1 100%;
 		width:  100%;
+		/*border: 1px solid var(--silver);*/
+		border-radius:  4px;
 	}
+
+	.swatch__image,
 	.swatch__effect {
-		
 		margin-left: -7px;
 		margin-right:  8px;
-		margin-top: -16px;
+		margin-top: -8px;
 		width: 16px;
 		height: 16px;
 	}
@@ -76,21 +86,27 @@
 		position: relative;
 		width: 16px;
 		height: 16px;
+		margin-left:  4px;
 		/*border-radius: 50%;*/
 		/*border-style:  solid;*/
 		/*border-width:  1px;*/
 		flex:  0 0 16px;
 	}
+	.swatch__image,
 	.swatch__fill {
 		position: absolute;
 		top: 0;
 		left: 0;
+	}
+	.swatch__fill {
 		width: 16px;
 		height: 16px;
 		border-radius: 50%;
 		border-style:  solid;
 		border-width:  1px;
+
 	}
+	
 	.swatch__name {
 		margin-left: 8px;
 		width: auto;

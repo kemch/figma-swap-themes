@@ -46,43 +46,6 @@ class Swap {
         this.from = { name: '', id: '', key: '', remote: false };
     }
 }
-// async function applyTheme(theme) {
-// }
-// // * copy
-// async function getStyleFromKeyOrId(key) {
-// 	// console.log('=========================')
-// 	let style;
-// 	if (!!figma.getStyleById(key)) {
-// 		style = figma.getStyleById(key);
-// 	} else {
-// 		// this returns false if key is used in get local getStyleById
-// 		try {
-// 			const remoteStyle = await figma.importStyleByKeyAsync(key);
-// 			style = remoteStyle;
-// 		} catch (e) {
-// 			const regex = /(?!S:)[\w]+(?=,)/;
-// 			const match = regex.exec(key);
-// 			try {
-// 				const remoteStyleTryAgain = await figma.importStyleByKeyAsync(match[0]);
-// 				style = remoteStyleTryAgain;
-// 			} catch(e) {
-// 				console.log('Style is unavailable in this document.')
-// 			}
-// 		}
-// 	}
-// 	// console.log('=========================')
-// 	if (typeof style !== 'undefined') {
-// 		style = {
-// 			name: style.name,
-// 			key: style.key,
-// 			id: style.id,
-// 			paints: style.paints,
-// 			remote: style.remote,
-// 			type: style.type,
-// 		}
-// 	}
-// 	return style;
-// }
 const Themes = {
     storageKey: 'PLUGIN_fdffdfdffdfdf4rfgf',
     themes: [],
@@ -97,7 +60,7 @@ const Themes = {
         return __awaiter(this, void 0, void 0, function* () {
             const storage = yield figma.clientStorage.getAsync(this.storageKey);
             this.themes = typeof storage === 'undefined' ? [] : storage;
-            yield this.checkStylesForRemote(this.themes);
+            // await this.checkStylesForRemote(this.themes);
             yield figma.clientStorage.setAsync(this.storageKey, this.themes);
             figma.ui.postMessage({
                 themes: Themes.themes
@@ -120,63 +83,79 @@ const Themes = {
             });
         });
     },
+    loadStylesInThemeEdit(theme) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const storage = yield figma.clientStorage.getAsync(this.storageKey);
+            yield this.checkStylesForRemote([this.themes[theme.index]]);
+            yield figma.clientStorage.setAsync(this.storageKey, this.themes);
+            figma.ui.postMessage({
+                themes: Themes.themes
+            });
+        });
+    },
     checkStylesForRemote(themes) {
         return __awaiter(this, void 0, void 0, function* () {
-            // console.log(themes)
+            const localPaintStyles = figma.getLocalPaintStyles().map(item => item.id);
+            const localEffectStyles = figma.getLocalEffectStyles().map(item => item.id);
+            const localStyles = localPaintStyles.concat(localEffectStyles);
+            // console.log(localStyles)
+            // return
             for (let theme of themes) {
                 for (let swap of theme.swaps) {
-                    // from
-                    if (figma.getStyleById(swap.from.id) == null) {
-                        if (!!swap.from.key) {
-                            try {
-                                const style = yield figma.importStyleByKeyAsync(swap.from.key);
-                                swap.from.remote = style.remote;
-                                swap.from.name = style.name;
-                                swap.from.paints = style.paints;
-                                swap.from.type = style.type;
-                                swap.from.missing = false;
-                                // console.log(style)
-                                // console.log(`${swap.from.name} is a TEAM STYLE in ${theme.name}.`)
-                            }
-                            catch (e) {
-                                swap.from.missing = true;
-                                console.log(e);
-                                // console.log(`No team style associated with ${swap.from.name} in theme ${theme.name}`)
-                            }
-                        }
-                    }
-                    else if (figma.getStyleById(swap.from.id) != null) {
+                    // check FROM
+                    // check if styles in the theme are local.
+                    if (localStyles.includes(swap.from.id)) {
                         swap.from.missing = false;
                         swap.from.remote = false;
+                        // this assumes the style was local.
                     }
-                    else {
-                        console.log(`Could not find ${swap.from.name} in ${theme.name} locally or in team library.`);
-                    }
-                    if (figma.getStyleById(swap.to.id) == null) {
-                        if (!!swap.to.key) {
-                            try {
-                                const style = yield figma.importStyleByKeyAsync(swap.to.key);
-                                swap.to.remote = style.remote;
-                                swap.to.name = style.name;
-                                swap.to.paints = style.paints;
-                                swap.to.type = style.type;
-                                swap.to.missing = false;
-                                // console.log(style)
-                                // console.log(`${swap.to.name} is a TEAM STYLE in ${theme.name}.`)
-                            }
-                            catch (e) {
-                                swap.to.missing = true;
-                                console.log(e);
-                                // console.log(`No team style associated with ${swap.to.name} in theme ${theme.name}`)
-                            }
+                    else if (!localStyles.includes(swap.from.id)) {
+                        swap.from.missing = true;
+                        // check if the style is from a team library
+                        try {
+                            const style = yield figma.importStyleByKeyAsync(swap.from.key);
+                            swap.from.remote = style.remote;
+                            swap.from.name = style.name;
+                            swap.from.paints = style.paints;
+                            swap.from.type = style.type;
+                            swap.from.missing = false;
+                            // console.log(style)
+                            // console.log(`${swap.from.name} is a TEAM STYLE in ${theme.name}.`)
+                        }
+                        catch (e) {
+                            // it always throws a 404
+                            swap.from.missing = true;
+                            console.log(e);
+                            // console.log(`No team style associated with ${swap.from.name} in theme ${theme.name}`)
                         }
                     }
-                    else if (figma.getStyleById(swap.to.id) != null) {
+                    else {
+                        console.log('nothing here');
+                    }
+                    // check TO
+                    if (localStyles.includes(swap.to.id)) {
                         swap.to.missing = false;
                         swap.to.remote = false;
+                        // this assumes the style was previously local.
+                    }
+                    else if (!localStyles.includes(swap.from.id)) {
+                        swap.to.missing = true;
+                        try {
+                            const style = yield figma.importStyleByKeyAsync(swap.to.key);
+                            swap.to.remote = style.remote;
+                            swap.to.name = style.name;
+                            swap.to.paints = style.paints;
+                            swap.to.type = style.type;
+                            swap.to.missing = false;
+                        }
+                        catch (e) {
+                            // it always throws a 404
+                            swap.to.missing = true;
+                            console.log(e);
+                        }
                     }
                     else {
-                        console.log(`Could not find ${swap.to.name} in ${theme.name} locally or in team library.`);
+                        console.log('nothing here');
                     }
                 }
             }
@@ -616,5 +595,8 @@ figma.ui.onmessage = msg => {
             swapMap[swap.to.id] = swap.from.id;
         }
         Themes.applyTheme(selection, msg.theme);
+    }
+    if (msg.type === 'loadStylesInThemeEdit') {
+        Themes.loadStylesInThemeEdit(msg.theme);
     }
 };
