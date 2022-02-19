@@ -2,11 +2,12 @@ console.clear()
 
 
 class Theme {
+	id: number;
 	name: string;
 	archived: boolean;
 	swaps: [];
 	constructor(name:string) {
-		// this.assignId();
+		this.assignId(Themes.themes);
 		this.name = name;
 		this.archived = false;
 		this.swaps = [];
@@ -18,6 +19,16 @@ class Theme {
 
 	unarchive() {
 		this.archived = false;
+	}
+
+	assignId(themes) {
+		let id = 0;
+		for (let theme of themes) {
+			if (theme.id > id) {
+				id = theme.id;
+			}
+		}
+		this.id = id+1;
 	}
 }
 
@@ -42,7 +53,6 @@ const Themes = {
 	async initPlugin() {
 		const storage = await figma.clientStorage.getAsync(this.storageKey);
 		this.themes = typeof storage === 'undefined' ? [] : storage;
-		// await this.checkStylesForRemote(this.themes);
 		await figma.clientStorage.setAsync(this.storageKey, this.themes);
 		figma.ui.postMessage({
 			themes:Themes.themes
@@ -62,9 +72,9 @@ const Themes = {
 		figma.ui.postMessage({
 			themes:this.themes
 		})
-		// figma.ui.postMessage({
-		// 	editNew:this.themes[this.themes.length+1]
-		// })
+		figma.ui.postMessage({
+			editNew:this.themes.length-1
+		})
 	},
 
 	async loadStylesInThemeEdit(theme) {

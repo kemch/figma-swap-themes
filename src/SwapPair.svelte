@@ -7,9 +7,6 @@
 	export let swap;
 	export let index;
 
-	// console.log($themes)
-	// console.log(swap)
-
 	function deleteSwapPair() {
 		$themes[theme].swaps.splice(index, 1);
 		parent.postMessage({ pluginMessage: { 

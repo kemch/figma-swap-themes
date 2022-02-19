@@ -5,6 +5,6 @@
 
 </script>
 
-{#each $themes as theme, index}
+{#each $themes as theme, index (theme.id)}
 	<Theme theme={theme} index={index} />
 {/each}

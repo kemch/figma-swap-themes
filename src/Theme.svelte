@@ -1,7 +1,7 @@
 <script>
 	
 	import { Button, Input, IconButton, Icon, IconAdjust, IconBack, Label, SelectMenu } from 'figma-plugin-ds-svelte';
-	import { themes } from './stores.js';
+	import { themes, newTheme } from './stores.js';
 	import SwapPair from './SwapPair.svelte';
 	export let theme;
 	export let index;
@@ -9,13 +9,6 @@
 	let editing = false;
 	let value = theme.name;
 	const themeIndex = index;
-
-
-	// onmessage = async (event) => {
-	// 	if (event.data.pluginMessage.editNew) {
-	// 		console.log(event)
-	// 	}
-	// }
 
 	function deleteTheme() {
 		parent.postMessage({ pluginMessage: { 
@@ -67,6 +60,10 @@
 	}
 
 	function editTheme() {
+		if ($newTheme) {
+			editing = true;
+			$newTheme = false;	
+		}
 		editing = !editing;
 		if (editing) {
 			parent.postMessage({ pluginMessage: { 
@@ -85,6 +82,7 @@
 			} }, '*');
 		}
 	}
+	
 </script>
 
 <div class="theme" on:click|self={applyTheme} role="button">
@@ -93,7 +91,7 @@
 		<IconButton iconName={IconAdjust} on:click={editTheme} />
 	</div>
 </div>
-{#if editing}
+{#if editing || ($newTheme === themeIndex)}
 	<div class="theme-edit">
 		<div class="header">
 			<div class="header__left">
@@ -154,7 +152,6 @@
 		left:  0;
 		right: 0;
 		bottom: 0;
-		/*width: 100%;*/
 		height: 100%;
 		background-color:  white;
 		overflow-y:  auto;

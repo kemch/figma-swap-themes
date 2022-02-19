@@ -1,18 +1,10 @@
 <script>
 
-	import {themes, localStyles} from './stores.js';
+	import {themes, localStyles, newTheme} from './stores.js';
 	import { onMount } from 'svelte';
 	import { GlobalCSS } from 'figma-plugin-ds-svelte';
 	import { Button, Input, Label, SelectMenu, IconButton, Icon, IconPlus } from 'figma-plugin-ds-svelte';
 	import Themes from './Themes.svelte';
-
-
-	function resizeUI() {
-		parent.postMessage({ pluginMessage: { 
-			'type': 'resizeUI',
-			'size': {width:320,height:400}
-		} }, '*');
-	}
 
 	onmessage = async (event) => {
 		if (event.data.pluginMessage.localStylesFetched) {
@@ -24,20 +16,27 @@
 			console.log($themes)
 		}
 		if (event.data.pluginMessage.editNew) {
-			console.log(event)
+			console.log(event.data.pluginMessage.editNew)
+			$newTheme = event.data.pluginMessage.editNew
+
 		}
 	}
 
-	// const themeIndex = index;
 	function addNewTheme() {
 		parent.postMessage({ pluginMessage: { 
 			'type': 'addNewTheme'
 		} }, '*');
-		resizeUI();
+		parent.postMessage({ pluginMessage: { 
+			'type': 'resizeUI',
+			'size': {width:500,height:400}
+		} }, '*');
 	}
 
 	onMount(async () => {
-		resizeUI();
+		parent.postMessage({ pluginMessage: { 
+			'type': 'resizeUI',
+			'size': {width:320,height:400}
+		} }, '*');
 	});
 
 </script>
@@ -45,7 +44,6 @@
 	<div class="header">
 		<div class="header__left">Themes</div>
 		<div class="header__right">
-			<!-- <Button variant="tertiary" on:click={addNewTheme}>New Theme</Button> -->
 			<IconButton iconName={IconPlus} on:click={addNewTheme} />
 		</div>
 	</div>
