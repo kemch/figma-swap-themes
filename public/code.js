@@ -81,6 +81,9 @@ const Themes = {
             figma.ui.postMessage({
                 themes: this.themes
             });
+            // figma.ui.postMessage({
+            // 	editNew:this.themes[this.themes.length+1]
+            // })
         });
     },
     loadStylesInThemeEdit(theme) {
@@ -240,15 +243,8 @@ const Themes = {
     },
     applyTheme(nodes, theme) {
         for (const node of nodes) {
-            // console.log(theme)
-            // console.log(this.themes[theme.index])
-            // console.log(this.themes[theme.index])
-            // console.log(this.themes[theme.index])
-            // this.swapStyle(node, this.getStyles(node), this.themes[theme])
             if (node.type === "TEXT" && typeof node.fillStyleId == "symbol") {
                 let segments = node.getStyledTextSegments(['fillStyleId']);
-                console.log(node.characters);
-                console.log(segments);
                 for (let segment of node.getStyledTextSegments(['fillStyleId'])) {
                     this.swapStyle(node, this.themes[theme.index], segment);
                 }
@@ -453,11 +449,6 @@ const Themes = {
                                 return;
                             }
                         }
-                        // 	console.log(node.effectStyleId)
-                        // }
-                        // if (!!node.strokeStyleId) {
-                        // 	console.log(node.strokeStyleId)
-                        // }
                     }
                     if (node.name === 'to') {
                         if (!!node.fillStyleId) {
@@ -502,7 +493,7 @@ const Themes = {
     }
 };
 Themes.initPlugin();
-figma.showUI(__html__, { width: 450, height: 500 });
+figma.showUI(__html__, { width: 320, height: 400 });
 const styles = [];
 const paints = figma.getLocalPaintStyles();
 const effects = figma.getLocalEffectStyles();
@@ -598,5 +589,8 @@ figma.ui.onmessage = msg => {
     }
     if (msg.type === 'loadStylesInThemeEdit') {
         Themes.loadStylesInThemeEdit(msg.theme);
+    }
+    if (msg.type === 'resizeUI') {
+        figma.ui.resize(msg.size.width, msg.size.height);
     }
 };

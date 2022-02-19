@@ -108,6 +108,7 @@
 	}
 	
 	.swatch__name {
+		font-size:  11px;
 		margin-left: 8px;
 		width: auto;
 		flex:  1 1 100%;

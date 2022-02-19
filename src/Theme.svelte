@@ -10,13 +10,23 @@
 	let value = theme.name;
 	const themeIndex = index;
 
-	console.log($themes[themeIndex].swaps)
-	
+
+	// onmessage = async (event) => {
+	// 	if (event.data.pluginMessage.editNew) {
+	// 		console.log(event)
+	// 	}
+	// }
+
 	function deleteTheme() {
 		parent.postMessage({ pluginMessage: { 
 			'type': 'deleteTheme',
 			'theme': {theme, index}
 		} }, '*');
+		parent.postMessage({ pluginMessage: { 
+			'type': 'resizeUI',
+			'size': {width:320,height:400}
+		} }, '*');
+		editing = !editing;
 	}
 
 	function addSwapPair() {
@@ -63,6 +73,16 @@
 				'type': 'loadStylesInThemeEdit',
 				'theme': {theme, index}
 			} }, '*');
+			parent.postMessage({ pluginMessage: { 
+				'type': 'resizeUI',
+				'size': {width:500,height:400}
+			} }, '*');
+
+		} else {
+			parent.postMessage({ pluginMessage: { 
+				'type': 'resizeUI',
+				'size': {width:320,height:400}
+			} }, '*');
 		}
 	}
 </script>
@@ -77,9 +97,9 @@
 	<div class="theme-edit">
 		<div class="header">
 			<div class="header__left">
-				<IconButton iconName={IconBack} on:click={editTheme} />
+				<IconButton iconName={IconBack} on:click={editTheme}/>
 				<div class="header__title">
-					Edit Theme <span class="header__title__action">Apply to Selection</span>
+					<input type="text" class="theme__field__name" bind:value="{value}" on:blur={updateTheme}>
 				</div>
 			</div>
 			<div class="header__right">
@@ -87,8 +107,6 @@
 			</div>
 		</div>
 		<div class="theme-edit__content">
-			
-			<Input class="theme__field__name" bind:value={value} on:blur={updateTheme}/>
 
 			<div class="swaps__heading">
 				<div class="swaps__heading__from">From:<div class="swaps__heading__icon">⇆</div></div>
@@ -165,7 +183,7 @@
 		text-align:  right;
 	}
 	.theme-edit__content {
-		padding:  16px;
+		padding:  0px 16px;
 		/*display: flex;*/
 		flex:  1 1 100%;
 		width:  100%;
@@ -189,6 +207,14 @@
 		text-align: right;
 	}
 	.swaps__heading__to {}
+	.theme__field__name {
+		display: flex;
+		flex:  1 1 100%;
+		background-color:  white;
+		font-size:  14px;
+		border:  0;
+
+	}
 	:global(.theme__field__name > input) {
 		background-color:  #fafafa !important;
 		border:  1px solid #f2f2f2 !important;
