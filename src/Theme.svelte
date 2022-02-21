@@ -1,6 +1,6 @@
 <script>
 	
-	import { Button, Input, IconButton, Icon, IconAdjust, IconBack, Label, SelectMenu } from 'figma-plugin-ds-svelte';
+	import { Button, Input, IconButton, Icon, IconAdjust, IconBack, Label, SelectMenu, OnboardingTip, IconTheme } from 'figma-plugin-ds-svelte';
 	import { themes, newTheme } from './stores.js';
 	import SwapPair from './SwapPair.svelte';
 	export let theme;
@@ -122,6 +122,13 @@
 		</div>
 	</div>
 {/if}
+
+<!-- 
+<div class="onboard">
+	<OnboardingTip iconName={IconTheme}>
+		Add pairs of styles to swap back and forth. To use styles from a team library, add styles locally in the team library's document.
+	</OnboardingTip>
+</div> -->
 
 <style>
 	.theme {

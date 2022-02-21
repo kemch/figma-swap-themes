@@ -1,9 +1,8 @@
 <script>
 
 	import {themes, localStyles, newTheme} from './stores.js';
-	import { onMount } from 'svelte';
 	import { GlobalCSS } from 'figma-plugin-ds-svelte';
-	import { Button, Input, Label, SelectMenu, IconButton, Icon, IconPlus } from 'figma-plugin-ds-svelte';
+	import { Button, Input, Label, SelectMenu, IconButton, Icon, IconPlus, IconTheme, OnboardingTip } from 'figma-plugin-ds-svelte';
 	import Themes from './Themes.svelte';
 
 	onmessage = async (event) => {
@@ -16,8 +15,8 @@
 			console.log($themes)
 		}
 		if (event.data.pluginMessage.editNew) {
-			console.log(event.data.pluginMessage.editNew)
 			$newTheme = event.data.pluginMessage.editNew
+			console.log($newTheme)
 
 		}
 	}
@@ -31,24 +30,28 @@
 			'size': {width:500,height:400}
 		} }, '*');
 	}
-
-	onMount(async () => {
-		parent.postMessage({ pluginMessage: { 
-			'type': 'resizeUI',
-			'size': {width:320,height:400}
-		} }, '*');
-	});
-
 </script>
 <div id="view">
 	<div class="header">
-		<div class="header__left">Themes</div>
+		<div class="header__left">
+			{#if $themes.length !== 0}
+				Apply theme to selection:
+			{:else}
+				Themes	
+			{/if}
+		</div>
 		<div class="header__right">
 			<IconButton iconName={IconPlus} on:click={addNewTheme} />
 		</div>
 	</div>
 	<div class="content">
-		<Themes />
+		{#if $themes.length !== 0}
+			<Themes />
+		{:else}
+		<OnboardingTip iconName={IconTheme}>
+	  		Create a theme to get started.
+		</OnboardingTip>
+		{/if}
 	</div>
 </div>
 
