@@ -87,10 +87,8 @@ const Themes = {
             this.themes.push(theme);
             yield figma.clientStorage.setAsync(this.storageKey, this.themes);
             figma.ui.postMessage({
-                themes: this.themes
-            });
-            figma.ui.postMessage({
-                editNew: this.themes.length - 1
+                themes: this.themes,
+                editNew: theme
             });
         });
     },

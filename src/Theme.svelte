@@ -1,6 +1,7 @@
 <script>
 	
 	import { Button, Input, IconButton, Icon, IconAdjust, IconBack, Label, SelectMenu, OnboardingTip, IconTheme } from 'figma-plugin-ds-svelte';
+	import {onMount} from 'svelte';
 	import { themes, newTheme } from './stores.js';
 	import SwapPair from './SwapPair.svelte';
 	export let theme;
@@ -9,6 +10,7 @@
 	let editing = false;
 	let value = theme.name;
 	const themeIndex = index;
+
 
 	function deleteTheme() {
 		parent.postMessage({ pluginMessage: { 
@@ -82,13 +84,22 @@
 			} }, '*');
 		}
 	}
-	
+
+	onMount(function(){
+		if (typeof $newTheme != 'undefined') {
+			if ($newTheme.id == theme.id) {
+				editing = true;
+			}
+		}
+	})
+
 </script>
 
 <div class="theme" on:click|self={applyTheme} role="button">
 	{value}
 	<div class="theme__actions">
 		<IconButton iconName={IconAdjust} on:click={editTheme} />
+		<Button variant="secondary" on:click={deleteTheme}>Delete</Button>
 	</div>
 </div>
 {#if editing || ($newTheme === themeIndex)}
@@ -118,7 +129,7 @@
 
 			<br><br><br>
 			<Button variant="secondary" on:click={addSwapPairFromSelection}>Add Swap Pair From Selection</Button>
-			<Button variant="secondary" on:click={deleteTheme}>Delete</Button>
+			
 		</div>
 	</div>
 {/if}
@@ -217,7 +228,13 @@
 		background-color:  white;
 		font-size:  14px;
 		border:  0;
-
+	}
+	.theme__field__name {
+		border:  1px solid var(--black3-opaque);
+		width:  100%;
+		display: flex;
+		padding:  4px 2px;
+		border-radius:  3px;
 	}
 	:global(.theme__field__name > input) {
 		background-color:  #fafafa !important;

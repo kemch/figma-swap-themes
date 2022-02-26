@@ -17,7 +17,6 @@
 		if (event.data.pluginMessage.editNew) {
 			$newTheme = event.data.pluginMessage.editNew
 			console.log($newTheme)
-
 		}
 	}
 
