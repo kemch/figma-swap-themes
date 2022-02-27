@@ -22,13 +22,14 @@ class Theme {
 	}
 
 	assignId(themes) {
-		let id = 0;
-		for (let theme of themes) {
-			if (theme.id > id) {
-				id = theme.id;
-			}
-		}
-		this.id = id+1;
+		// let id = 0;
+		// for (let theme of themes) {
+		// 	if (theme.id > id) {
+		// 		id = theme.id;
+		// 	}
+		// }
+		// this.id = id+1;
+		this.id = +new Date;
 	}
 }
 
@@ -43,7 +44,7 @@ class Swap {
 }
 
 const Themes = {
-	storageKey :'PLUGIN_fdffdfdffdfdf4rfgf',
+	storageKey :'PLUGIfN_fdffdfdffdfdf4rfgf',
 	themes: [],
 	async listThemes() {
 		const storage = await figma.clientStorage.getAsync(this.storageKey);
@@ -234,6 +235,49 @@ const Themes = {
 		})
 
 	},
+
+	async importThemes(newThemes) {
+		const timestamp = +new Date;
+		const storage = await figma.clientStorage.getAsync(this.storageKey);
+		this.themes = storage;
+		let validThemes = [];
+
+		const ids = this.themes.map(e=>e.id);
+
+		// will replace themes with id
+		// for (let theme of newThemes) {
+		// 	if (ids.includes(theme.id)) {
+		// 		console.log('hi')
+		// 		this.themes[theme.id] = theme;
+		// 	} else {
+		// 		this.themes.push(theme);
+		// 	}
+			
+		// }
+
+		// will replace themes with id
+		for (let [i, theme] of newThemes.entries()) {
+			theme.id = timestamp + i;
+			this.themes.push(theme);
+		}
+		
+
+		await figma.clientStorage.setAsync(this.storageKey, this.themes);
+
+		figma.ui.postMessage({
+			themes:this.themes
+		})
+	},
+	// async exportAll() {
+	// 	const storage = await figma.clientStorage.getAsync(this.storageKey);
+	// 	this.themes = storage;
+	// 	let exportData = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.themes));
+
+	// 	figma.ui.postMessage({
+	// 		themes:themes,
+	// 		export:exportData
+	// 	})
+	// },
 	
 	applyTheme(nodes:Array<any>, theme): void {
 
@@ -599,5 +643,8 @@ figma.ui.onmessage = msg => {
 	}
 	if (msg.type === 'resizeUI') {
 		figma.ui.resize(msg.size.width, msg.size.height);
+	}
+	if (msg.type === 'importThemes') {
+		Themes.importThemes(msg.themes);
 	}
 };

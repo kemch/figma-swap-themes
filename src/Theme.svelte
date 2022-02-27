@@ -85,6 +85,16 @@
 		}
 	}
 
+	function buildThemeOnCanvas() {
+
+	}
+	function exportTheme() {
+
+	}
+	function duplicateTheme() {
+
+	}
+
 	onMount(function(){
 		if (typeof $newTheme != 'undefined') {
 			if ($newTheme.id == theme.id) {
@@ -112,6 +122,10 @@
 				</div>
 			</div>
 			<div class="header__right">
+
+				<Button variant="tertiary" on:click={buildThemeOnCanvas}>Build theme on canvas</Button>
+				<Button variant="tertiary" on:click={exportTheme}>Export</Button>
+				<Button variant="tertiary" on:click={duplicateTheme}>Duplicate</Button>
 				<Button variant="tertiary" on:click={applyTheme}>Apply Theme</Button>
 			</div>
 		</div>
