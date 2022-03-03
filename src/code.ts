@@ -22,13 +22,6 @@ class Theme {
 	}
 
 	assignId(themes) {
-		// let id = 0;
-		// for (let theme of themes) {
-		// 	if (theme.id > id) {
-		// 		id = theme.id;
-		// 	}
-		// }
-		// this.id = id+1;
 		this.id = +new Date;
 	}
 }
@@ -268,17 +261,154 @@ const Themes = {
 			themes:this.themes
 		})
 	},
-	// async exportAll() {
-	// 	const storage = await figma.clientStorage.getAsync(this.storageKey);
-	// 	this.themes = storage;
-	// 	let exportData = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.themes));
 
-	// 	figma.ui.postMessage({
-	// 		themes:themes,
-	// 		export:exportData
-	// 	})
-	// },
-	
+	async duplicateTheme(theme) {
+
+		const storage = await figma.clientStorage.getAsync(this.storageKey);
+		this.themes = storage;
+		const ids = this.themes.map(e=>e.id);
+
+		const newTheme = new Theme(`Copy of ${theme.name}`)
+
+		newTheme.swaps = theme.swaps;
+
+		this.themes.push(newTheme);
+
+		await figma.clientStorage.setAsync(this.storageKey, this.themes);
+		figma.ui.postMessage({
+			themes:this.themes,
+			editNew:newTheme
+		})
+
+	},
+
+	async applyStyleToCanvasNode(swap, i) {
+
+		const labelFrom: TextNode = figma.createText();
+		const labelTo: TextNode = figma.createText();
+
+		const nodeFrom = figma.createRectangle();
+		const nodeTo = figma.createRectangle();
+
+		const centerX = figma.viewport.center.x;
+		const centerY = figma.viewport.center.y;
+
+		labelFrom.name = swap.from.name;
+        labelFrom.fontName = { family: "Inter", style: "Medium"};
+        labelFrom.characters = swap.from.name;
+        labelFrom.textAlignHorizontal = "CENTER";
+        labelFrom.fontSize = 6;
+        labelFrom.x = centerX;
+        labelFrom.y = centerY + 55;
+
+        labelTo.name = swap.to.name;
+        labelTo.fontName = { family: "Inter", style: "Medium"};
+        labelTo.characters = swap.to.name;
+        labelTo.textAlignHorizontal = "CENTER";
+        labelTo.fontSize = 6;
+        labelTo.x = centerX + 65;
+        labelTo.y = centerY + 55;
+
+        nodeFrom.name = "from";
+        nodeTo.name = "to";
+		nodeFrom.resize(50,50);
+		nodeTo.resize(50,50);
+
+		nodeFrom.x = centerX;
+		nodeTo.x = centerX + 65;
+
+		nodeFrom.y = centerY;
+		nodeTo.y = centerY;
+
+		
+
+		const group = figma.group([nodeFrom,nodeTo,labelFrom,labelTo], figma.currentPage);
+
+		group.name = `swap pair ${i}`;
+
+		group.y = centerY + (i*70);
+
+
+		// from
+		if (swap.from.type === 'EFFECT') { 
+			console.log('effect')
+			if (swap.from.remote === true) {
+				console.log('remote')
+				try {
+					const remoteStyle = await figma.importStyleByKeyAsync(swap.from.key);
+					console.log(remoteStyle)
+					nodeFrom.effectStyleId = remoteStyle.id;
+				} catch (e) {
+					console.log(e)
+				}
+			} else if (figma.getStyleById(swap.from.id) != null){
+				console.log('null')
+				nodeFrom.effectStyleId = swap.from.id;
+			} else {
+				console.log('nothing happened')
+				labelFrom.characters += ' (missing)';
+			}
+		} else if (swap.from.type === 'PAINT') {
+			if (swap.from.remote === true) {
+				try {
+					const remoteStyle = await figma.importStyleByKeyAsync(swap.from.key);
+					console.log(remoteStyle)
+					nodeFrom.fillStyleId = remoteStyle.id;
+				} catch (e) {
+					console.log(e)
+				}
+			} else if (figma.getStyleById(swap.from.id) != null){
+				nodeFrom.fillStyleId = swap.from.id;
+			} else {
+				console.log('nothing happened')
+				labelFrom.characters += ' (missing)';
+			}
+		}
+
+		// to
+		if (swap.to.type === 'EFFECT') {
+			if (swap.to.remote === true) {
+				try {
+					const remoteStyle = await figma.importStyleByKeyAsync(swap.to.key);
+					console.log(remoteStyle)
+					nodeTo.effectStyleId = remoteStyle.id;
+				} catch (e) {
+					console.log(e)
+				}
+			} else if (figma.getStyleById(swap.to.id) != null){
+				nodeTo.effectStyleId = swap.to.id;
+			} else {
+				console.log('nothing happened')
+				labelTo.characters += ' (missing)';
+			}
+		} else if (swap.to.type === 'PAINT') {
+			if (swap.to.remote === true) {
+				try {
+					const remoteStyle = await figma.importStyleByKeyAsync(swap.to.key);
+					nodeTo.fillStyleId = remoteStyle.id;
+				} catch (e) {
+					console.log(e)
+				}
+			} else if (figma.getStyleById(swap.to.id) != null){
+				nodeTo.fillStyleId = swap.to.id;
+			} else {
+				console.log('nothing happened')
+				labelTo.characters += ' (missing)';
+			}
+		}
+	},
+
+	async buildThemeOnCanvas(theme) {
+		try {
+			await figma.loadFontAsync({family: "Inter", style: "Medium"});
+		} catch(e) {
+			console.log(e);
+		}
+		for (let i = theme.swaps.length - 1; i >= 0; i--) {
+			await Themes.applyStyleToCanvasNode(theme.swaps[i], i);
+		}
+	},
+
 	applyTheme(nodes:Array<any>, theme): void {
 
 		for (const node of nodes) {
@@ -646,5 +776,13 @@ figma.ui.onmessage = msg => {
 	}
 	if (msg.type === 'importThemes') {
 		Themes.importThemes(msg.themes);
+	}
+
+	if (msg.type === 'duplicateTheme') {
+		Themes.duplicateTheme(msg.theme);
+	}
+
+	if (msg.type === 'buildThemeOnCanvas') {
+		Themes.buildThemeOnCanvas(msg.theme);
 	}
 };

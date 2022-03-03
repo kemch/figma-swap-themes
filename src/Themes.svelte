@@ -1,6 +1,5 @@
 <script>
 	import {themes, localStyles} from './stores.js';
-	
 	import Theme from './Theme.svelte';
 
 </script>

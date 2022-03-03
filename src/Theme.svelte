@@ -7,10 +7,23 @@
 	export let theme;
 	export let index;
 
+	let blobUrl;
+	let download;
 	let editing = false;
 	let value = theme.name;
 	const themeIndex = index;
 
+	let prepareJson = async () => {
+		let blobConfig = new Blob(
+		    [ JSON.stringify([theme]) ], 
+		    { type: 'text/json;charset=utf-8' }
+		)
+		blobUrl = URL.createObjectURL(blobConfig)
+	}
+
+	async function exportTheme() {
+		await prepareJson().then((value)=>(download.click()))
+	}
 
 	function deleteTheme() {
 		parent.postMessage({ pluginMessage: { 
@@ -86,13 +99,18 @@
 	}
 
 	function buildThemeOnCanvas() {
-
+		parent.postMessage({ pluginMessage: { 
+			'type': 'buildThemeOnCanvas',
+			'theme': theme,
+		} }, '*');
 	}
-	function exportTheme() {
 
-	}
 	function duplicateTheme() {
-
+		editing = false;
+		parent.postMessage({ pluginMessage: { 
+			'type': 'duplicateTheme',
+			'theme': theme,
+		} }, '*');
 	}
 
 	onMount(function(){
@@ -122,7 +140,7 @@
 				</div>
 			</div>
 			<div class="header__right">
-
+				<a class="export-link" bind:this={download} href={blobUrl} target="_blank" download={`${value}.json`}>click</a>
 				<Button variant="tertiary" on:click={buildThemeOnCanvas}>Build theme on canvas</Button>
 				<Button variant="tertiary" on:click={exportTheme}>Export</Button>
 				<Button variant="tertiary" on:click={duplicateTheme}>Duplicate</Button>
