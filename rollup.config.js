@@ -5,6 +5,7 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import svg from 'rollup-plugin-svg';
 import typescript from 'rollup-plugin-typescript';
+import replace from '@rollup/plugin-replace';
 
 /* Post CSS */
 import postcss from 'rollup-plugin-postcss';
@@ -49,6 +50,10 @@ export default [{
 			target: 'public/index.html',
 			inline: true
 		}),
+		replace({
+		  'process.env.NODE_ENV': JSON.stringify('production'),
+		   include: '**/node_modules/**',
+	    }),
 
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated

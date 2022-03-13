@@ -4,9 +4,15 @@
 	import { GlobalCSS } from 'figma-plugin-ds-svelte';
 	import { Button, Input, Label, SelectMenu, IconButton, Icon, IconPlus, IconTheme, OnboardingTip } from 'figma-plugin-ds-svelte';
 	import Themes from './Themes.svelte';
+	import IconBack from './icons/back.svg';
+	import SvgIcons from './Icons.svelte';
+	import SvgIcon from './SvgIcon.svelte';
+  	import Dropdown from "sv-bootstrap-dropdown";
 
 	let blobUrl;
 	let download;
+
+	let dropdownTrigger;
 	onmessage = async (event) => {
 		if (event.data.pluginMessage.localStylesFetched) {
 			$localStyles = event.data.pluginMessage.localStylesFetched.localStyles;
@@ -63,7 +69,23 @@
 
 
 </script>
+<SvgIcons />
 <div id="view">
+	<SvgIcon icon="switch"/>
+	<Dropdown triggerElement={dropdownTrigger}>
+		<button
+		    type="button"
+		    class="btn btn-secondary"
+		    bind:this={dropdownTrigger}
+		    >
+		    Dropdown
+		</button>
+		<div slot="DropdownMenu">
+		    <a class="dropdown-item" href="#">Action</a>
+		    <a class="dropdown-item" href="#">Another action</a>
+		    <a class="dropdown-item" href="#">Something else here</a>
+		</div>
+		</Dropdown>
 	<a class="export-link" bind:this={download} href={blobUrl} target="_blank" download="export.json">click</a>
 	<div class="header">
 		<div class="header__left">
@@ -90,7 +112,7 @@
 	</div>
 </div>
 
-<style>
+<style>	
 	.export-link {
 		display: none;
 	}

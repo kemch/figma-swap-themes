@@ -2,7 +2,7 @@
 	import { themes } from './stores.js';
 	import { Button, Input, Label, SelectMenu, IconClose, Icon, IconButton } from 'figma-plugin-ds-svelte';
 	import StylesMenu from './StylesMenu.svelte';
-
+	import SvgIcon from './SvgIcon.svelte';
 	export let theme;
 	export let swap;
 	export let index;
@@ -17,7 +17,7 @@
 	}
 
 </script>
-
+<SvgIcon icon="back" />
 <div class="swap">
 	<div class="swap__from">
 		<StylesMenu theme={theme} direction={'from'} style={swap.from} />

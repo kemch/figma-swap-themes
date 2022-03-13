@@ -1,0 +1,57 @@
+@font-face {
+  font-family: 'swap';
+  src:  url('fonts/swap.eot?vps4ig');
+  src:  url('fonts/swap.eot?vps4ig#iefix') format('embedded-opentype'),
+    url('fonts/swap.ttf?vps4ig') format('truetype'),
+    url('fonts/swap.woff?vps4ig') format('woff'),
+    url('fonts/swap.svg?vps4ig#swap') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'swap' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-adjustments:before {
+  content: "\e900";
+}
+.icon-back:before {
+  content: "\e901";
+}
+.icon-book:before {
+  content: "\e902";
+}
+.icon-dots:before {
+  content: "\e903";
+}
+.icon-edit:before {
+  content: "\e904";
+}
+.icon-gear:before {
+  content: "\e905";
+}
+.icon-mask:before {
+  content: "\e906";
+}
+.icon-plus:before {
+  content: "\e907";
+}
+.icon-question:before {
+  content: "\e908";
+}
+.icon-switch:before {
+  content: "\e909";
+}
