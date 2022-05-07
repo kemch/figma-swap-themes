@@ -47,10 +47,21 @@ class Swap {
     constructor(theme) {
         this.to = { name: '', id: '', key: '', remote: false };
         this.from = { name: '', id: '', key: '', remote: false };
+        this.id = this.assignId(theme);
+    }
+    assignId(theme) {
+        let id = +new Date;
+        for (let t of theme.swaps) {
+            console.log(t);
+            do {
+                id = id + 1;
+            } while (t.id === id);
+        }
+        return this.id = id;
     }
 }
 const Themes = {
-    storageKey: 'PLUGIfN_fdffdfdffdfdf4rfgf',
+    storageKey: 'ffd',
     themes: [],
     listThemes() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -225,7 +236,9 @@ const Themes = {
             // theme is an index
             const storage = yield figma.clientStorage.getAsync(this.storageKey);
             this.themes = storage;
-            this.themes[theme].swaps.splice(swap.index, 1);
+            // this.themes[theme].swaps.splice(swap.index, 1);
+            let swapIndexFromId = this.themes[theme].swaps.map(item => item.id).indexOf(swap.swap.id);
+            ~swapIndexFromId && this.themes[theme].swaps.splice(swapIndexFromId, 1);
             yield figma.clientStorage.setAsync(this.storageKey, this.themes);
             figma.ui.postMessage({
                 themes: this.themes
@@ -243,7 +256,6 @@ const Themes = {
     },
     importThemes(newThemes) {
         return __awaiter(this, void 0, void 0, function* () {
-            const timestamp = +new Date;
             const storage = yield figma.clientStorage.getAsync(this.storageKey);
             this.themes = storage;
             const ids = this.themes.map(e => e.id);
@@ -256,10 +268,15 @@ const Themes = {
             // 		this.themes.push(theme);
             // 	}
             // }
-            // will replace themes with id
-            for (let [i, theme] of newThemes.entries()) {
-                theme.id = timestamp + i;
-                this.themes.push(theme);
+            for (let newTheme of newThemes) {
+                // let timestamp = +new Date;
+                // newTheme.id = timestamp + 1;
+                for (let theme of this.themes) {
+                    do {
+                        newTheme.id = theme.id + 1;
+                    } while (newTheme.id == theme.id);
+                }
+                this.themes.push(newTheme);
             }
             yield figma.clientStorage.setAsync(this.storageKey, this.themes);
             figma.ui.postMessage({

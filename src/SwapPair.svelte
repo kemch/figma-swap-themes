@@ -17,7 +17,6 @@
 	}
 
 </script>
-<SvgIcon icon="back" />
 <div class="swap">
 	<div class="swap__from">
 		<StylesMenu theme={theme} direction={'from'} style={swap.from} />
@@ -36,7 +35,16 @@
 		flex:  1 1 100%;
 		width:  100%;
 		align-items:  center;
+		border-bottom:  1px solid transparent;
+		border-top:  1px solid transparent;
 
+	}
+	.swap:hover {
+		border-top: 1px solid  #f0f0f0;
+		border-bottom: 1px solid  #f0f0f0;
+	}
+	.swap:hover .swap__options {
+		visibility: visible;
 	}
 	.swap__from,
 	.swap__to {
@@ -44,10 +52,12 @@
 		display: flex;
 		flex:  1 1 100%;
 		width:  100%;
-		margin-right:  10px;
+		margin-right:  4px;
 	}
 
+
 	.swap__options {
-		/*flex:  0 0 100%;*/
+		visibility: hidden;
+
 	}
 </style>

@@ -167,11 +167,8 @@
 			<StyleSwatch style={style} dropdown={true}/>
 			<!-- <StyleSwatch style={lookupStyle(style.id)} /> -->			
 		{:else}
-			<span class="menu__no-selection">
+			<span class="menu__no-selection chevron-down">
 				Select Style
-				<div class="menu__dropdown__arrow">
-					<Icon iconName={IconBack} />
-				</div>
 			</span>
 		{/if}
 	</div>

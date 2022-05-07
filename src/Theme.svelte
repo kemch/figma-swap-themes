@@ -4,8 +4,12 @@
 	import {onMount} from 'svelte';
 	import { themes, newTheme } from './stores.js';
 	import SwapPair from './SwapPair.svelte';
+	import SvgIcon from './SvgIcon.svelte';
+	import Dropdown from 'sv-bootstrap-dropdown';
+
 	export let theme;
 	export let index;
+	let dropdownTrigger;
 
 	let blobUrl;
 	let download;
@@ -87,7 +91,7 @@
 			} }, '*');
 			parent.postMessage({ pluginMessage: { 
 				'type': 'resizeUI',
-				'size': {width:500,height:400}
+				'size': {width:380,height:400}
 			} }, '*');
 
 		} else {
@@ -127,7 +131,7 @@
 	{value}
 	<div class="theme__actions">
 		<IconButton iconName={IconAdjust} on:click={editTheme} />
-		<Button variant="secondary" on:click={deleteTheme}>Delete</Button>
+		
 	</div>
 </div>
 {#if editing || ($newTheme === themeIndex)}
@@ -136,47 +140,65 @@
 			<div class="header__left">
 				<IconButton iconName={IconBack} on:click={editTheme}/>
 				<div class="header__title">
-					<input type="text" class="theme__field__name" bind:value="{value}" on:blur={updateTheme}>
+					Edit Theme
 				</div>
 			</div>
 			<div class="header__right">
 				<a class="export-link" bind:this={download} href={blobUrl} target="_blank" download={`${value}.json`}>click</a>
-				<Button variant="tertiary" on:click={buildThemeOnCanvas}>Build theme on canvas</Button>
-				<Button variant="tertiary" on:click={exportTheme}>Export</Button>
-				<Button variant="tertiary" on:click={duplicateTheme}>Duplicate</Button>
-				<Button variant="tertiary" on:click={applyTheme}>Apply Theme</Button>
+				<Dropdown triggerElement={dropdownTrigger}>
+					<button
+					    type="button"
+					    class="btn btn-secondary icon-button"
+					    bind:this={dropdownTrigger}
+					    >
+					    <SvgIcon icon="dots"/>
+					</button>
+					<div slot="DropdownMenu">
+					    <a class="dropdown-item" href="#" on:click={applyTheme}>Apply Theme to Selection</a>
+					    <a class="dropdown-item" href="#" on:click={buildThemeOnCanvas}>Build Theme on Canvas</a>
+					    <a class="dropdown-item" href="#" on:click={exportTheme}>Export Theme</a>
+					    <a class="dropdown-item" href="#" on:click={duplicateTheme}>Duplicate</a>
+					    <a class="dropdown-item" href="#" on:click={deleteTheme}>Delete</a>
+					</div>
+				</Dropdown>
 			</div>
 		</div>
 		<div class="theme-edit__content">
 
-			<div class="swaps__heading">
-				<div class="swaps__heading__from">From:<div class="swaps__heading__icon">⇆</div></div>
-				<div class="swaps__heading__to">To:</div>
+			<div class="theme__name-edit">
+				<input type="text" class="theme__field__name" bind:value="{value}" on:blur={updateTheme}>
 			</div>
+			<div class="swap__actions">
+				<button class="btn btn-primary" on:click={addSwapPair}>Add Swap Pair</button>
+				<button class="btn btn-secondary" on:click={addSwapPairFromSelection}>Add Swap Pair From Selection</button>
+				
+			</div>
+			{#if theme.swaps.length}
+				<div class="swaps__heading">
+					<div class="swaps__heading__from">From</div>
+					<div class="swaps__heading__to">To</div>
+				</div>
 
-			{#each theme.swaps as swap, index}
-			<SwapPair theme={themeIndex} swap={swap} index={index}/>
-			{/each}
-			<Button variant="secondary" on:click={addSwapPair}>Add Swap Pair</Button>
+				{#each [...theme.swaps].reverse() as swap, index (swap.id)}
+				<SwapPair theme={themeIndex} swap={swap} index={index}/>
+				{/each}
+			{:else}
+				<div class="swaps__empty">
+					Add pairs of styles to swap to and from. For team libraries, you must be in the team library document to add styles.
+				</div>
+			{/if}
 
-			<br><br><br>
-			<Button variant="secondary" on:click={addSwapPairFromSelection}>Add Swap Pair From Selection</Button>
-			
+
+		
 		</div>
 	</div>
 {/if}
 
-<!-- 
-<div class="onboard">
-	<OnboardingTip iconName={IconTheme}>
-		Add pairs of styles to swap back and forth. To use styles from a team library, add styles locally in the team library's document.
-	</OnboardingTip>
-</div> -->
-
 <style>
 	.theme {
 		display: flex;
-		font-size:  14px;
+		font-size:  12px;
+		font-weight:  500;
 		padding: 8px 0px 8px 16px;
 		margin: 0px -16px 0px -16px;
 		align-items: center;
@@ -262,11 +284,31 @@
 		border:  0;
 	}
 	.theme__field__name {
-		border:  1px solid var(--black3-opaque);
+		/*border:  1px solid var(--black3-opaque);*/
 		width:  100%;
 		display: flex;
-		padding:  4px 2px;
+		/*padding:  4px 2px;*/
+		padding-left:  4px;
+		min-height: 32px;
 		border-radius:  3px;
+		font-size:  11px;
+		background-color:  #FAFAFA;
+		margin-bottom: 16px;
+	}
+	.swap__actions {
+		margin-top:  24px;
+		margin-bottom:  24px;
+		display: flex;
+		align-items:  center;
+	}
+	.swaps__empty {
+		color:  #565656;
+		font-size:  11px;
+		padding-top:  16px;
+		padding-top:  20px;
+	}
+	:global(.swap__actions .btn) {
+		margin-right: 16px;
 	}
 	:global(.theme__field__name > input) {
 		background-color:  #fafafa !important;

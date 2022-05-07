@@ -3,14 +3,19 @@
 	import {themes, localStyles, newTheme} from './stores.js';
 	import { GlobalCSS } from 'figma-plugin-ds-svelte';
 	import { Button, Input, Label, SelectMenu, IconButton, Icon, IconPlus, IconTheme, OnboardingTip } from 'figma-plugin-ds-svelte';
+  	import Dropdown from 'sv-bootstrap-dropdown';
+
 	import Themes from './Themes.svelte';
-	import IconBack from './icons/back.svg';
 	import SvgIcons from './Icons.svelte';
 	import SvgIcon from './SvgIcon.svelte';
-  	import Dropdown from "sv-bootstrap-dropdown";
+  	import Import from './Import.svelte';
+
+  	import GlobalStyles from './GlobalStyles.svelte';
 
 	let blobUrl;
 	let download;
+
+	let viewImport = false;
 
 	let dropdownTrigger;
 	onmessage = async (event) => {
@@ -34,7 +39,7 @@
 		} }, '*');
 		parent.postMessage({ pluginMessage: { 
 			'type': 'resizeUI',
-			'size': {width:500,height:400}
+			'size': {width:380,height:400}
 		} }, '*');
 	}
 	let prepareJson = async () => {
@@ -48,45 +53,17 @@
 	async function exportThemes() {
 		await prepareJson().then((value)=>(download.click()))
 	}
-	function importThemes(e) {
-		// let files = e.files;		
-		// console.log(e.target.files)
-		const reader = new FileReader();
-        reader.onload = onReaderLoad;
-        reader.readAsText(e.target.files[0]);
+
+	function toggleImportView(event) {
+		viewImport = !viewImport;
 	}
-	function onReaderLoad(event){
-        // console.log(event.target.result);
-        var obj = JSON.parse(event.target.result);
-        console.log(obj)
-        // $themes = [...$themes, obj];
-        // $themes.concat(obj);
-        parent.postMessage({ pluginMessage: { 
-			'type': 'importThemes',
-			'themes' : obj
-		} }, '*');
-    }
-
-
+	
 </script>
+<GlobalStyles />
 <SvgIcons />
 <div id="view">
-	<SvgIcon icon="switch"/>
-	<Dropdown triggerElement={dropdownTrigger}>
-		<button
-		    type="button"
-		    class="btn btn-secondary"
-		    bind:this={dropdownTrigger}
-		    >
-		    Dropdown
-		</button>
-		<div slot="DropdownMenu">
-		    <a class="dropdown-item" href="#">Action</a>
-		    <a class="dropdown-item" href="#">Another action</a>
-		    <a class="dropdown-item" href="#">Something else here</a>
-		</div>
-		</Dropdown>
 	<a class="export-link" bind:this={download} href={blobUrl} target="_blank" download="export.json">click</a>
+	
 	<div class="header">
 		<div class="header__left">
 			{#if $themes.length !== 0}
@@ -96,9 +73,22 @@
 			{/if}
 		</div>
 		<div class="header__right">
-			<IconButton iconName={IconPlus} on:click={addNewTheme} />
-			<input accept="text/json" type="file" on:change={importThemes}>
-			<Button on:click={exportThemes}>Export All</Button>
+			<button on:click={addNewTheme} class="btn icon-button">
+				<SvgIcon icon="plus"/>
+			</button>
+			<Dropdown triggerElement={dropdownTrigger}>
+				<button
+				    type="button"
+				    class="btn btn-secondary icon-button"
+				    bind:this={dropdownTrigger}
+				    >
+				    <SvgIcon icon="dots"/>
+				</button>
+				<div slot="DropdownMenu">
+				    <a class="dropdown-item" href="#" on:click={toggleImportView}>Import</a>
+				    <a class="dropdown-item" href="#" on:click={exportThemes}>Export All</a>
+				</div>
+			</Dropdown>
 		</div>
 	</div>
 	<div class="content">
@@ -110,9 +100,14 @@
 		</OnboardingTip>
 		{/if}
 	</div>
+
+	{#if viewImport}
+		<Import on:message={toggleImportView}/>
+	{/if}
 </div>
 
 <style>	
+	
 	.export-link {
 		display: none;
 	}
@@ -127,6 +122,8 @@
  	padding-left:  16px;
  }
  .header__right {
+ 	display:  flex;
+ 	align-items:  center;
  	margin-left:  auto;
  	text-align:  right;
  }

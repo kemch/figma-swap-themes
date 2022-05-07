@@ -112,6 +112,8 @@
 		margin-left: 8px;
 		width: auto;
 		flex:  1 1 100%;
+		min-width: 98px;
+		max-width: 98px;
 	}
 
 	.swatch__pulldown {
